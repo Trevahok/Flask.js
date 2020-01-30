@@ -1,57 +1,38 @@
 import * as http from "http";
 import * as url from 'url';
 import { insertUrl, searchUrl} from "./router.mjs";
-
+import {} from './errors.mjs';
+import { HttpError,  InvalidUrlPattern, ReturnTypeMustBeString} from "./errors.mjs";
 
 /*
 
 
-                          +-----------+
-                          |  run      |
-                          |           |<---+
-                          +----+------+    |
-                               |           |
-                          +----v------+    |
-                          | middleware|    |
-                          +----+------+    |
-                               |           |
-                          +----v-------+   |
-                          | router     |   |
-                          +----+-------+   |
-                               |           |
-                               |           |
-                               +-----------+
+            +-----------+
+            |  run      |
+            |           |<---+
+            +----+------+    |
+                |           |
+            +----v------+    |
+            | middleware|    |
+            +----+------+    |
+                |           |
+            +----v-------+   |
+            | router     |   |
+            +----+-------+   |
+                |           |
+                |           |
+                +-----------+
 
 
 */
 
 
+/*
 
-export class HttpError{
-    static error404(req, res){
-        res.writeHead(404).end("Error 404: Resource not found.");
-        return res;
-    }
-    static error500(req, res){
-        res.writeHead(500, "Error 500: Server side error");
-        return res;
-    }
-}
-
-class InvalidUrlPattern extends Error{
-    constructor(message){
-        super(message)
-        this.name = this.constructor.name;
-    }
-}
-
-class ReturnTypeMustBeString extends Error{
-    constructor(message){
-        super(message)
-        this.name = this.constructor.name;
-    }
-
-}
+TODO:
+ - URL Get params and search params - modify Trie and extract get params in urToPath
+ - Serve static files and tempaltes from their respective folders - render_template , return_static 
+*/
 
 export class Flask{
 
@@ -114,7 +95,17 @@ export class Flask{
     run( port = 5000 , debug = true ){
         var server = http.createServer((req, res)=>{
 
-            res = this.middleware( req, res ) ;
+            try{
+                res = this.middleware( req, res ) ;
+
+                return res;
+            }
+            catch( e ){
+                console.log( e)
+            }
+            finally{ 
+                return HttpError.error500(req, res)
+            }
 
 
         });
@@ -122,4 +113,5 @@ export class Flask{
         console.log( `Running on http://127.0.0.1:${port}/` )
 
     }
+
 }

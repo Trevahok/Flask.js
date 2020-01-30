@@ -1,6 +1,5 @@
 import * as url from 'url';
 
-
 /*
 for a pattern list of = 
 [
@@ -50,8 +49,6 @@ function insert(urlpatterns, list, funct) {
 
 }
 
-
-
 function _searchUrl(list, urlpatterns) {
     if(list.length == 0 && !('' in urlpatterns) ) return null;
     var top = list.shift()
@@ -66,33 +63,36 @@ function _searchUrl(list, urlpatterns) {
     return _searchUrl(list, urlpatterns[top])
 }
 
+export function searchUrl( ur , urlpatterns){
+    return  _searchUrl( urlToPath(ur), urlpatterns);
+}
+
 export function insertUrl(u, urlpatterns, funct) {
     return insert(urlpatterns, urlToPath(u), funct)
 }
 
-//  main 
 
-var urlpatterns = {}
-var urls_to_add = [
-    ['/', 'root'],
-    ['/home/', 'home'],
-    ['/home/<name>/', 'name'],
-    ['/a/123/', 'rand'],
-]
+// var urlpatterns = {}
+// var urls_to_add = [
+//     ['/', 'root'],
+//     ['/home/', 'home'],
+//     ['/home/<name>/', 'name'],
+//     ['/a/123/', 'rand'],
+// ]
 
-for (let u of urls_to_add) {
-    console.log(u)
-    urlpatterns = insertUrl(u[0], urlpatterns, u[1])
-}
+// for (let u of urls_to_add) {
+//     console.log(u)
+//     urlpatterns = insertUrl(u[0], urlpatterns, u[1])
+// }
 
-// var suffix_tree = insert( {}, 'banana'.split('') , Math.random() *10 )  
-//  suffix_tree = insert( suffix_tree, 'bann'.split('') , Math.random() *10 )  
+// // var suffix_tree = insert( {}, 'banana'.split('') , Math.random() *10 )  
+// //  suffix_tree = insert( suffix_tree, 'bann'.split('') , Math.random() *10 )  
 
-// console.log( JSON.stringify(urlpatterns, null , 2  ) )
+// // console.log( JSON.stringify(urlpatterns, null , 2  ) )
 
-console.log(
-    _searchUrl(
-        urlToPath('/home'),
-        urlpatterns
-    )
-)
+// console.log(
+//     _searchUrl(
+//         urlToPath('/home'),
+//         urlpatterns
+//     )
+// )

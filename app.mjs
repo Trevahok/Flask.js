@@ -1,12 +1,18 @@
 import { Flask } from "./flask.mjs";
 
 var app = new Flask('app')
-app.route('/',  function index(req, res ){
-    res.writeHead(200);
-    res.end('hi');
-    return res;
+
+app.route('/',  function index(request ){
+
+    return ['root', 404];
 
 } )
 
-// console.log(app._routes['/'] )
+app.route('/home',  function index(request){
+
+    return 'welcome to home ';
+
+} )
+
+
 app.run()

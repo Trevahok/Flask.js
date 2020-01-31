@@ -3,6 +3,7 @@ import * as url from 'url';
 import { insertUrl, searchUrl} from "./router.mjs";
 import {} from './errors.mjs';
 import { HttpError,  InvalidUrlPattern, ReturnTypeMustBeString} from "./errors.mjs";
+import { readFile } from "fs";
 
 /*
 
@@ -11,17 +12,17 @@ import { HttpError,  InvalidUrlPattern, ReturnTypeMustBeString} from "./errors.m
             |  run      |
             |           |<---+
             +----+------+    |
-                |           |
+                 |           |
             +----v------+    |
             | middleware|    |
             +----+------+    |
-                |           |
+                 |           |
             +----v-------+   |
             | router     |   |
             +----+-------+   |
-                |           |
-                |           |
-                +-----------+
+                 |           |
+                 |           |
+                 +-----------+
 
 
 */
@@ -41,9 +42,15 @@ export class Flask{
 
     constructor(name = 'app', static_folder = './static', template_folder = './templates' ) {
         this.name = name;
-        this.routes = {}
+        this._routes = {}
         this.static_folder  = static_folder
         this.template_folder = template_folder
+    }
+    render_template(filename){
+
+        
+
+
     }
 
     middleware( req , res ){
@@ -102,8 +109,6 @@ export class Flask{
             }
             catch( e ){
                 console.log( e)
-            }
-            finally{ 
                 return HttpError.error500(req, res)
             }
 

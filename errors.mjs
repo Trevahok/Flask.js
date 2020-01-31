@@ -5,7 +5,7 @@ export class HttpError{
         return res;
     }
     static error500(req, res){
-        res.writeHead(500, "Error 500: Server side error");
+        res.writeHead(500).end( "Error 500: Server side error");
         return res;
     }
 }
